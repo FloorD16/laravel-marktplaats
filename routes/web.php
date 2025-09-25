@@ -9,3 +9,5 @@ Route::post('/register/store', [UserController::class, 'store'])->name('register
 
 Route::get('/login', [UserController::class, 'login'])->name('login');
 Route::post('/login', [UserController::class, 'authenticate'])->name('login.auth');
+
+Route::post('/login/forgotpassword', [UserController::class, 'sendResetLink'])->name('login.email');

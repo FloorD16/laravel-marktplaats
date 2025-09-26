@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Models\Ad;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,13 +21,9 @@ class UserController extends Controller
     public function store(StoreUserRequest $request) {
         $validated = $request->validated();
 
-        $user = new User();
+        $validated['password'] = Hash::make($validated['password']);
 
-        $user->name = $validated['name'];
-        $user->email = $validated['email'];
-        $user->password = Hash::make($validated['password']);
-
-        $user->save();
+        $user = User::create($validated);
 
         Mail::raw("Welkom {$user->name}, bedankt voor je registratie!", function ($message) use ($user) {
             $message->to($user->email)
@@ -45,7 +42,7 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->route('login');
+            return redirect()->route('dashboard');
         }
 
         return back()->withErrors([
@@ -61,7 +58,6 @@ class UserController extends Controller
 
     public function sendResetLink(Request $request) 
     {
-        dd('hello');
         $request->validate(['email' => 'required|email']);
         
         $status = Password::sendResetLink($request->only('email'));
@@ -69,5 +65,39 @@ class UserController extends Controller
         return $status === Password::RESET_LINK_SENT 
             ? back()->with(['status' => __($status)])
             : back()->withErrors(['email' => __($status)]);
+    }
+
+    public function showResetForm()
+    {
+        return view('users.resetform');
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                ])->save();
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? redirect()->route('login')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
+    }
+
+    public function dashboard()
+    {
+        $ads = Ad::where('user_id', Auth::id())->get();
+
+        return view('users.dashboard', compact('ads'));
     }
 }

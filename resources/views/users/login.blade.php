@@ -3,7 +3,6 @@
 @section('title', 'Inloggen')
 
 @section('content')
-    
 
     @if ($errors->any())
         <div style="background-color: #f8d7da; border: 1px solid #f5c2c7; color: #842029; padding: 16px; border-radius: 6px; margin-bottom: 20px; font-family: Arial, sans-serif;">
@@ -48,7 +47,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('login.email') }}" method="POST">
+                    <form action="{{ route('login.sendresetlink') }}" method="POST">
+                        @csrf
                         <label for="email" style="display: block; margin-bottom: 6px; font-weight: bold;">Email:</label>
                         <input id="email" name="email" type="email" required
                             style="width: 100%; padding: 8px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 4px;">
@@ -62,5 +62,27 @@
             </div> 
         </div>
     </div>
+
+    <div class="modal fade" id="resetLinkSent" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5>Resetlink verzonden!</h5>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+    @if(session('status'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = new bootstrap.Modal(document.getElementById('resetLinkSent'));
+                modal.show();
+            });
+        </script>
+    @endif
 
 @endsection

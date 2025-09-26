@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ad extends Model
 {
+    use HasFactory;
+
+    protected $fillable = ['title', 'description', 'price', 'user_id'];
+
     public function bids() {
         return $this->hasMany(Bid::class);
     }
@@ -18,6 +22,4 @@ class Ad extends Model
     public function categories() {
         return $this->belongsToMany(Category::class);
     }
-
-    use HasFactory;
 }

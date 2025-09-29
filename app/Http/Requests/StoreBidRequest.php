@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAdRequest extends FormRequest
+class StoreBidRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,8 @@ class StoreAdRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|max:255',
-            'description' => 'nullable|max:1000',
-            'price' => 'required|regex:/^\d+(?:[.,]\d{1,2})?$/',
-            'categories' => 'array',
-            'categories.*' => 'exists:categories,id',
+            'bid' => 'required|regex:/^\d+(?:[.,]\d{1,2})?$/',
+            'ad_id' => 'required|exists:ads,id',
         ];
     }
 }

@@ -33,5 +33,7 @@
         @if($ads->isEmpty())
             <p style="text-align: center; color: #999;">Je hebt nog geen advertenties geplaatst.</p>
         @endif
+
+        {{ $ads->links('pagination::bootstrap-4') }}
     </div>
 @endsection

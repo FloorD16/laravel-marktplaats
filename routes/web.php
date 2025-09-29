@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\BidController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
@@ -31,3 +32,6 @@ Route::post('ad/store', [AdController::class, 'store'])->name('ad.store')->middl
 Route::get('ad/edit/{ad}', [AdController::class, 'edit'])->name('ad.edit')->middleware('auth');
 Route::put('ad/update/{ad}', [AdController::class, 'update'])->name('ad.update')->middleware('auth');
 Route::delete('ad/destroy/{ad}', [AdController::class, 'destroy'])->name('ad.destroy')->middleware('auth');
+Route::get('ad/show/{ad}', [AdController::class, 'show'])->name('ad.show');
+
+Route::post('bid/store', [BidController::class, 'store'])->name('bid.store')->middleware('auth');

@@ -31,6 +31,18 @@
             @endauth
         </div>
 
+        @guest
+        <div>
+            <li>
+                <form method="GET" action="{{ route('login') }}" style="margin: 0;">
+                    <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 4px; font-weight: bold; cursor: pointer;">
+                        Inloggen
+                    </button>
+                </form>
+            </li>
+        </div>
+        @endguest
+
         @auth
         <div>
             <li>

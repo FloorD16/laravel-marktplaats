@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAdRequest;
 use App\Models\Ad;
+use App\Models\Category;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,16 +13,34 @@ class AdController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index()
+    public function index(Request $request)
     {
-        $ads = Ad::All();
+        $query = Ad::query();
 
-        return view('ads.index', compact('ads'));
+        if ($request->filled('category')) {
+            $query->whereHas('categories', function ($q) use ($request) {
+                $q->where('categories.id', $request->category);
+            });
+        }
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                ->orWhere('description', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        $ads = $query->paginate(5)->appends($request->query());
+        $categories = Category::all();
+
+        return view('ads.index', compact('ads', 'categories'));
     }
     
     public function create()
     {
-        return view('ads.create');
+        $categories = Category::all();
+
+        return view('ads.create', compact('categories'));
     }
 
     public function store(StoreAdRequest $request)
@@ -30,7 +49,11 @@ class AdController extends Controller
 
         $validated['user_id'] = Auth::id();
 
-        Ad::create($validated);
+        $ad = Ad::create($validated);
+
+        if ($request->filled('category')) {
+            $ad->categories()->sync($validated['categories']);
+        }
 
         return redirect()->route('dashboard');
     }
@@ -39,7 +62,9 @@ class AdController extends Controller
     {
         $this->authorize('update', $ad);
 
-        return view('ads.edit', compact('ad'));
+        $categories = Category::all();
+
+        return view('ads.edit', compact('ad', 'categories'));
     }
 
     public function update(StoreAdRequest $request, Ad $ad)
@@ -52,6 +77,10 @@ class AdController extends Controller
         
         $ad->update($validated);
 
+        if ($request->filled('category')) {
+            $ad->categories()->sync($validated['categories']);
+        }
+
         return redirect()->route('dashboard');
     }
 
@@ -62,5 +91,14 @@ class AdController extends Controller
         $ad->delete();
         
         return redirect()->route('dashboard');
+    }
+
+    public function show(Ad $ad)
+    {
+        $ad->load(['bids' => function ($query) {
+            $query->latest();
+        }, 'bids.user']);
+        
+        return view('ads.show', compact('ad'));
     }
 }

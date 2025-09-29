@@ -26,8 +26,15 @@
            style="width: 100%; padding: 10px; margin-bottom: 16px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
 
     <label for="price" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Prijs:</label>
-    <input id="price" name="price" type="text" required
+    <input id="price" name="price" type="text" value="{{ old('price') }}" required
            style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+
+    <label for="categories" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333;">Kies categorieën:</label>
+    <select id="categories" name="categories[]" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;" multiple>
+        @foreach($categories as $category)
+            <option value="{{ $category->id }}">{{ $category->name }}</option>
+        @endforeach
+    </select>
 
     <button type="submit"
             style="width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; transition: background-color 0.3s;">

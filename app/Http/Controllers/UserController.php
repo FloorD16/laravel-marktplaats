@@ -96,7 +96,7 @@ class UserController extends Controller
 
     public function dashboard()
     {
-        $ads = Ad::where('user_id', Auth::id())->get();
+        $ads = Ad::where('user_id', Auth::id())->paginate(5);
 
         return view('users.dashboard', compact('ads'));
     }

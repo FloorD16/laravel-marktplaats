@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdController;
 use App\Http\Controllers\BidController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
@@ -35,3 +36,5 @@ Route::delete('ad/destroy/{ad}', [AdController::class, 'destroy'])->name('ad.des
 Route::get('ad/show/{ad}', [AdController::class, 'show'])->name('ad.show');
 
 Route::post('bid/store', [BidController::class, 'store'])->name('bid.store')->middleware('auth');
+
+Route::post('message/store', [MessageController::class, 'store'])->name('message.store')->middleware('auth');

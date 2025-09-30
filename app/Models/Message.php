@@ -7,15 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
-    public function sender()
-    {   
+    use HasFactory;
+
+    protected $fillable = ['message', 'ad_id', 'sender_id', 'receiver_id'];
+
+    public function ad() {
+        return $this->belongsTo(Ad::class);
+    }
+
+    public function sender() {   
         return $this->belongsTo(User::class, 'sender_id');
     }
 
-    public function receiver()
-    {
+    public function receiver() {
         return $this->belongsTo(User::class, 'receiver_id');
     }
-
-    use HasFactory;
 }

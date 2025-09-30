@@ -22,4 +22,8 @@ class Ad extends Model
     public function categories() {
         return $this->belongsToMany(Category::class);
     }
+
+    public function messages() {
+        return $this->hasMany(Message::class);
+    }
 }

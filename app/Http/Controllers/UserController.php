@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Models\Ad;
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -98,6 +99,13 @@ class UserController extends Controller
     {
         $ads = Ad::where('user_id', Auth::id())->paginate(5);
 
-        return view('users.dashboard', compact('ads'));
+        $messages = Message::with('sender')
+            ->whereHas('ad', function ($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->latest()
+            ->get();
+
+        return view('users.dashboard', compact('ads', 'messages'));
     }
 }

@@ -95,9 +95,21 @@ class AdController extends Controller
 
     public function show(Ad $ad)
     {
-        $ad->load(['bids' => function ($query) {
-            $query->latest();
-        }, 'bids.user']);
+        $ad->load([
+            'bids' => function ($query) {
+                $query->latest();
+            },
+            'bids.user',
+            'messages' => function ($query) use ($ad) {
+                $query->where(function ($q) use ($ad) {
+                    $q->where('sender_id', Auth::id())
+                    ->where('receiver_id', $ad->user_id);
+                })->orWhere(function ($q) use ($ad) {
+                    $q->where('sender_id', $ad->user_id)
+                    ->where('receiver_id', Auth::id());
+                });
+            }
+        ]);
         
         return view('ads.show', compact('ad'));
     }

@@ -36,40 +36,5 @@
 
         {{ $ads->links('pagination::bootstrap-4') }}
 
-        <div>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#viewMessages"
-                style="background-color: #007bff; color: white; border: none; padding: 8px 16px; margin-top: 20px; border-radius: 4px; font-weight: bold; cursor: pointer;">
-                Bekijk berichten    
-            </button>
-        </div>
-
-        <div class="modal fade" id="viewMessages" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
-                <div class="modal-content" style="border-radius: 10px; overflow: hidden;">
-                    <div class="modal-header" style="background-color: #007bff; color: white;">
-                        <h5 class="modal-title">Berichten</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" style="max-height: 400px; overflow-y: auto; background-color: #f9f9f9; padding: 20px;">
-                        @forelse($messages as $message)
-                            <div style="background-color: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                                <div style="margin-bottom: 6px;">
-                                    <strong style="color: #333;">{{ $message->sender->name }}</strong>
-                                </div>
-                                <div style="color: #007bff; font-size: 15px; line-height: 1.4;">
-                                    {{ $message->message }}
-                                </div>
-                                <div style="margin-top: 8px;">
-                                    <small style="color: #999;">{{ $message->created_at->format('d-m-Y H:i') }}</small>
-                                </div>
-                            </div>
-                        @empty
-                            <p style="color: #999;">Er zijn nog geen berichten.</p>
-                        @endforelse
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 @endsection

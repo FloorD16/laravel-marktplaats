@@ -23,7 +23,7 @@ class StoreMessageRequest extends FormRequest
     {
         return [
             'message' => 'required|max:1000',
-            'ad_id' => 'required|exists:ads,id',
+            'ad_id' => 'nullable|exists:ads,id',
             'receiver_id' => 'required|exists:users,id',
         ];
     }

@@ -24,6 +24,12 @@
             </li>
 
             <li>
+                <a href="{{ route('messages') }}" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 8px 12px; border-radius: 4px; transition: background-color 0.3s;">
+                    Mijn berichten
+                </a>
+            </li>
+
+            <li>
                 <a href="{{ route('ad.create') }}" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 8px 12px; border-radius: 4px; transition: background-color 0.3s;">
                     Nieuwe advertentie
                 </a>

@@ -37,4 +37,5 @@ Route::get('ad/show/{ad}', [AdController::class, 'show'])->name('ad.show');
 
 Route::post('bid/store', [BidController::class, 'store'])->name('bid.store')->middleware('auth');
 
+Route::get('/messages/{conversation?}', [MessageController::class, 'index'])->name('messages')->middleware('auth');
 Route::post('message/store', [MessageController::class, 'store'])->name('message.store')->middleware('auth');

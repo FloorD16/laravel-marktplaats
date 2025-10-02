@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('message');
             $table->timestamps();
-            $table->foreignId('ad_id');
+            $table->foreignId('ad_id')->nullable();
             $table->foreignId('sender_id');
             $table->foreignId('receiver_id');
         });

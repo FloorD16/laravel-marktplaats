@@ -33,6 +33,16 @@
     <input id="password_confirmation" name="password_confirmation" type="password" required
            style="width: 100%; padding: 8px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;">
 
+    <label for="email_notifications" style="display: block; margin-bottom: 6px; font-weight: bold;">Emailnotificaties:</label>
+    <div style="display: flex; align-items: center;">
+        <div class="form-check" style="flex: 1;">
+            <input class="form-check-input" type="checkbox" name="email_notifications" id="email_notifications" value="1">
+            <label class="form-check-label" for="email_notifications">
+                Ontvang emailnotificaties
+            </label>
+        </div>
+    </div>
+    <br>
     <button type="submit"
             style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">
         Registreren

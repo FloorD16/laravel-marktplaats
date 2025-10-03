@@ -27,6 +27,8 @@ Route::post('/logout', function () {
 })->name('logout');
 
 Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard')->middleware('auth');
+Route::get('/profile', [UserController::class, 'profile'])->name('profile')->middleware('auth');
+Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update')->middleware('auth');
 
 Route::get('ad/create', [AdController::class, 'create'])->name('ad.create')->middleware('auth');
 Route::post('ad/store', [AdController::class, 'store'])->name('ad.store')->middleware('auth');

@@ -4,7 +4,7 @@
 
 @section('content')
     <div style="display: flex; gap: 20px;">
-        <!-- Sidebar -->
+        
         <div style="width: 220px; background-color: #f8fafc; padding: 20px; border-right: 1px solid #e2e8f0; box-shadow: 2px 0 5px rgba(0,0,0,0.05);">
             <h4 style="margin-bottom: 16px; font-size: 18px; color: #333;">Gesprekken</h4>
             @foreach($partners as $key => $partner)
@@ -17,7 +17,6 @@
             @endforeach
         </div>
 
-        <!-- Right Panel: Messages Grouped by Sender -->
         <div style="flex: 1; overflow-y: auto; background-color: #f1f5f9; padding: 24px;">
             @if($selectedMessages->isNotEmpty())
                 @php

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateProfileRequest;
 use App\Models\Ad;
 use App\Models\Message;
 use App\Models\User;
@@ -20,9 +21,11 @@ class UserController extends Controller
     }
 
     public function store(StoreUserRequest $request) {
+        
         $validated = $request->validated();
-
+        
         $validated['password'] = Hash::make($validated['password']);
+        $validated['email_notifications'] = $request->has('email_notifications');
 
         $user = User::create($validated);
 
@@ -107,5 +110,30 @@ class UserController extends Controller
             ->get();
 
         return view('users.dashboard', compact('ads', 'messages'));
+    }
+
+    public function profile()
+    {
+        $user = User::find(Auth::id());
+
+        return view('users.profile', compact('user'));
+    }
+
+    public function update(UpdateProfileRequest $request)
+    {
+        $field = $request->input('field');
+        $value = $request->input('value');
+
+        $user = User::find(Auth::id());
+
+        if ($field === 'email_notifications') {
+            $user->email_notifications = $value === 'on' ? true : false;
+        } elseif (in_array($field, ['name', 'email', 'password'])) {
+            $user->$field = $field === 'password' ? bcrypt($value) : $value;
+        }
+
+        $user->save();
+
+        return redirect()->back();
     }
 }

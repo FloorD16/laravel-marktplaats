@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             'name' => 'Guest',
             'email' => 'guest@example.com',
             'password' => Hash::make('guest'),
+            'email_notifications' => false,
         ]);
         
         User::factory()->count(23)->create();
@@ -27,6 +28,7 @@ class UserSeeder extends Seeder
             'name' => 'Floor',
             'email' => 'floor@example.com',
             'password' => Hash::make('test'),
+            'email_notifications' => true,
         ]);
     }
 }

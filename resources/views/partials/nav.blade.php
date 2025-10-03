@@ -34,6 +34,12 @@
                     Nieuwe advertentie
                 </a>
             </li>
+
+            <li>
+                <a href="{{ route('profile') }}" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 8px 12px; border-radius: 4px; transition: background-color 0.3s;">
+                    Mijn profiel
+                </a>
+            </li>
             @endauth
         </div>
 
